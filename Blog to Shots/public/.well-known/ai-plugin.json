@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "blog_to_shorts",
+  "name_for_human": "Blog to Shorts Video Generator",
+  "description_for_model": "Plugin for transforming blog posts URLs into short-form vertical videos. Use it to generate scripts, find visual metaphors, and render actual .mp4 video files from content.",
+  "description_for_human": "Turn any blog post into a viral short video with AI.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/openapi.yaml"
+  },
+  "logo_url": "https://remotion.dev/img/logo-small.png",
+  "contact_email": "hello@example.com",
+  "legal_info_url": "https://example.com/legal"
+}

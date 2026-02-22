@@ -1,0 +1,89 @@
+openapi: 3.0.1
+info:
+  title: Blog to Shorts AI Engine
+  description: An AI engine that transforms blog posts into 60-second vertical videos with scripts, stock footage, and voiceovers.
+  version: "v1"
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+  - url: https://your-production-url.com
+    description: Production Server
+
+paths:
+  /api/generate-script:
+    post:
+      operationId: generateVideoScript
+      summary: Analyze a blog post and generate a video script
+      description: Scrapes a blog URL, extracts key insights, and generates a JSON video script with scenes, keywords, and finding stock media.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: The full URL of the blog post to transform.
+                  example: "https://blog.google/technology/ai/google-gemini-ai/"
+      responses:
+        "200":
+          description: Successful script generation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  script:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      hook:
+                        type: string
+                      scenes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            text:
+                              type: string
+                            description:
+                              type: string
+                              description: "Why this scene matters (context)"
+                            keywords:
+                              type: array
+                              items:
+                                type: string
+                            backgroundUrl:
+                              type: string
+                      cta:
+                        type: string
+  
+  /api/render:
+    post:
+      operationId: renderVideo
+      summary: Render the final MP4 video
+      description: Takes a generated video script and renders a downloadable MP4 file using Remotion.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                script:
+                  type: object
+                  description: The full JSON script object returned from /generate-script
+      responses:
+        "200":
+          description: Returns the MP4 video file stream
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
